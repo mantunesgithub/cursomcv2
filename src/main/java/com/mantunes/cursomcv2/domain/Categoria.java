@@ -12,6 +12,9 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.ManyToAny;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Categoria implements Serializable  {
 	private static final long serialVersionUID = 1L;
@@ -19,7 +22,9 @@ public class Categoria implements Serializable  {
 	@Id
 	private Integer	id;
 	private	String	nome;
-	
+
+	//do lado que voce quer que venha os obj associados e do outro lado (produto) backreference
+	@JsonManagedReference
 	@ManyToMany (mappedBy = "categorias")
 	private List <Produto> produtos = new ArrayList<>();
 	
