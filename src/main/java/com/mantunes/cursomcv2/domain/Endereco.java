@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class Endereco implements Serializable  {
 	private static final long serialVersionUID = 1L;
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private	Integer	id;
 	private	String	logradouro;
 	private	String	numero;
@@ -48,7 +48,7 @@ public class Endereco implements Serializable  {
 		this.bairro = bairro;
 		this.cep = cep;
 		this.cliente = cliente;
-		this.setCidade(cidade);
+		this.cidade = cidade;
 	}
 
 	public Integer getId() {

@@ -1,0 +1,157 @@
+warning: LF will be replaced by CRLF in src/main/java/com/mantunes/cursomcv2/CursomcV2Application.java.
+The file will have its original line endings in your working directory
+[1mdiff --git a/src/main/java/com/mantunes/cursomcv2/CursomcV2Application.java b/src/main/java/com/mantunes/cursomcv2/CursomcV2Application.java[m
+[1mindex 4b2c5d1..cf7ffe6 100644[m
+[1m--- a/src/main/java/com/mantunes/cursomcv2/CursomcV2Application.java[m
+[1m+++ b/src/main/java/com/mantunes/cursomcv2/CursomcV2Application.java[m
+[36m@@ -1,5 +1,6 @@[m
+ package com.mantunes.cursomcv2;[m
+ [m
+[32m+[m[32mimport java.text.SimpleDateFormat;[m
+ import java.util.Arrays;[m
+ [m
+ import org.springframework.beans.factory.annotation.Autowired;[m
+[36m@@ -12,13 +13,20 @@[m [mimport com.mantunes.cursomcv2.domain.Cidade;[m
+ import com.mantunes.cursomcv2.domain.Cliente;[m
+ import com.mantunes.cursomcv2.domain.Endereco;[m
+ import com.mantunes.cursomcv2.domain.Estado;[m
+[32m+[m[32mimport com.mantunes.cursomcv2.domain.Pagamento;[m
+[32m+[m[32mimport com.mantunes.cursomcv2.domain.PagamentoComBoleto;[m
+[32m+[m[32mimport com.mantunes.cursomcv2.domain.PagamentoComCartao;[m
+[32m+[m[32mimport com.mantunes.cursomcv2.domain.Pedido;[m
+ import com.mantunes.cursomcv2.domain.Produto;[m
+[32m+[m[32mimport com.mantunes.cursomcv2.domain.enums.EstadoPagamento;[m
+ import com.mantunes.cursomcv2.domain.enums.TipoCliente;[m
+ import com.mantunes.cursomcv2.repositories.CategoriaRepository;[m
+ import com.mantunes.cursomcv2.repositories.CidadeRepository;[m
+ import com.mantunes.cursomcv2.repositories.ClienteRepository;[m
+ import com.mantunes.cursomcv2.repositories.EnderecoRepository;[m
+ import com.mantunes.cursomcv2.repositories.EstadoRepository;[m
+[32m+[m[32mimport com.mantunes.cursomcv2.repositories.PagamentoRepository;[m
+[32m+[m[32mimport com.mantunes.cursomcv2.repositories.PedidoRepository;[m
+ import com.mantunes.cursomcv2.repositories.ProdutoRepository;[m
+ [m
+ @SpringBootApplication[m
+[36m@@ -27,15 +35,19 @@[m [mpublic class CursomcV2Application implements CommandLineRunner  {[m
+ 	@Autowired[m
+ 	private	CategoriaRepository categoriaRepository;[m
+ 	@Autowired[m
+[31m-	private	ProdutoRepository produtoRepository;[m
+[32m+[m	[32mprivate	ProdutoRepository 	produtoRepository;[m
+ 	@Autowired[m
+[31m-	private	EstadoRepository estadoRepository;[m
+[32m+[m	[32mprivate	EstadoRepository 	estadoRepository;[m
+ 	@Autowired[m
+[31m-	private	CidadeRepository cidadeRepository;[m
+[32m+[m	[32mprivate	CidadeRepository 	cidadeRepository;[m
+ 	@Autowired[m
+[31m-	private	ClienteRepository clienteRepository;[m
+[32m+[m	[32mprivate	ClienteRepository 	clienteRepository;[m
+ 	@Autowired[m
+[31m-	private	EnderecoRepository enderecoRepository;[m
+[32m+[m	[32mprivate	EnderecoRepository	enderecoRepository;[m
+[32m+[m	[32m@Autowired[m
+[32m+[m	[32mprivate	PedidoRepository 	pedidoRepository;[m
+[32m+[m	[32m@Autowired[m
+[32m+[m	[32mprivate	PagamentoRepository pagamentoRepository;[m
+ 	[m
+ 	public static void main(String[] args) {[m
+ 		SpringApplication.run(CursomcV2Application.class, args);[m
+[36m@@ -82,7 +94,33 @@[m [mpublic class CursomcV2Application implements CommandLineRunner  {[m
+ 		[m
+ 		clienteRepository.saveAll(Arrays.asList(cli1));[m
+ 		enderecoRepository.saveAll(Arrays.asList(e1,e2));[m
+[32m+[m		[32mSystem.out.println("cliente e endereço repository");[m
+[32m+[m[41m		[m
+[32m+[m		[32mSimpleDateFormat sdf = SimpleDateFormat("dd/MM/yyyy HH:mm");[m
+[32m+[m[41m		[m
+[32m+[m		[32mif (cli1 != null && e1 != null ) {[m
+[32m+[m			[32mSystem.out.println("chegou Pedido - cli1 = " + cli1 + "e1 = " + e1);[m
+[32m+[m		[32m}[m
+[32m+[m[41m		[m
+[32m+[m		[32mPedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);[m
+[32m+[m		[32mSystem.out.println("Passou Pedido");[m
+[32m+[m		[32mPedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);[m
+ 		[m
+[32m+[m		[32mPagamento pagto1	= new PagamentoComCartao(null,EstadoPagamento.QUITADO,ped1,6 );[m
+[32m+[m		[32mped1.setPagamento(pagto1);[m
+ 		[m
+[32m+[m		[32mPagamento pagto2	= new PagamentoComBoleto(null,EstadoPagamento.PENDENTE,ped2, sdf.parse("20/10/2017 00:00"), null);[m
+[32m+[m		[32mped2.setPagamento(pagto2);[m
+[32m+[m[41m		[m
+[32m+[m		[32mcli1.getPedidos().addAll(Arrays.asList(ped1, ped2));[m
+[32m+[m[41m		[m
+[32m+[m		[32mpedidoRepository.saveAll(Arrays.asList(ped1, ped2));[m
+[32m+[m		[32mpagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));[m
+[32m+[m		[32mSystem.out.println("Passou pedido e pagameto");[m
+[32m+[m	[32m}[m
+[32m+[m
+[32m+[m	[32mprivate SimpleDateFormat SimpleDateFormat(String string) {[m
+[32m+[m		[32m// TODO Auto-generated method stub[m
+[32m+[m		[32mreturn null;[m
+ 	}[m
+ }[m
+[1mdiff --git a/src/main/java/com/mantunes/cursomcv2/domain/Cliente.java b/src/main/java/com/mantunes/cursomcv2/domain/Cliente.java[m
+[1mindex 7fe1f41..866bb8a 100644[m
+[1m--- a/src/main/java/com/mantunes/cursomcv2/domain/Cliente.java[m
+[1m+++ b/src/main/java/com/mantunes/cursomcv2/domain/Cliente.java[m
+[36m@@ -31,16 +31,18 @@[m [mpublic class Cliente implements Serializable  {[m
+ 	[m
+ 	//libera a serializacao dos endereco para relacionaento 1 cliente N enderecos[m
+ 	@JsonManagedReference[m
+[31m-	@OneToMany(mappedBy = "cliente")[m
+[32m+[m	[32m@OneToMany(mappedBy="cliente")[m
+ 	private	List<Endereco> enderecos = new ArrayList<>();[m
+[31m-	[m
+ /*[m
+  *nome da tabela a ser criada para telefone [m
+  */[m
+ 	@ElementCollection[m
+ 	@CollectionTable(name="TELEFONE")[m
+ 	private	Set<String> telefones = new HashSet<>();[m
+[31m-[m
+[32m+[m[41m	[m
+[32m+[m	[32m@OneToMany(mappedBy="cliente")[m
+[32m+[m	[32mprivate	List<Pedido> pedidos = new ArrayList<>();[m
+[32m+[m[41m	[m
+ 	public Cliente() {[m
+ 	}[m
+ [m
+[36m@@ -108,6 +110,14 @@[m [mpublic class Cliente implements Serializable  {[m
+ 	public void setTelefones(Set<String> telefones) {[m
+ 		this.telefones = telefones;[m
+ 	}[m
+[32m+[m[41m	[m
+[32m+[m	[32mpublic List<Pedido> getPedidos() {[m
+[32m+[m		[32mreturn pedidos;[m
+[32m+[m	[32m}[m
+[32m+[m[41m	[m
+[32m+[m	[32mpublic void setPedidos(List<Pedido> pedidos) {[m
+[32m+[m		[32mthis.pedidos = pedidos;[m
+[32m+[m	[32m}[m
+ [m
+ 	@Override[m
+ 	public int hashCode() {[m
+[1mdiff --git a/src/main/java/com/mantunes/cursomcv2/domain/Endereco.java b/src/main/java/com/mantunes/cursomcv2/domain/Endereco.java[m
+[1mindex c68ddd2..500f78d 100644[m
+[1m--- a/src/main/java/com/mantunes/cursomcv2/domain/Endereco.java[m
+[1m+++ b/src/main/java/com/mantunes/cursomcv2/domain/Endereco.java[m
+[36m@@ -14,8 +14,8 @@[m [mimport com.fasterxml.jackson.annotation.JsonBackReference;[m
+ @Entity[m
+ public class Endereco implements Serializable  {[m
+ 	private static final long serialVersionUID = 1L;[m
+[31m-	@GeneratedValue(strategy=GenerationType.IDENTITY)[m
+ 	@Id[m
+[32m+[m	[32m@GeneratedValue(strategy=GenerationType.IDENTITY)[m
+ 	private	Integer	id;[m
+ 	private	String	logradouro;[m
+ 	private	String	numero;[m
+[36m@@ -48,7 +48,7 @@[m [mpublic class Endereco implements Serializable  {[m
+ 		this.bairro = bairro;[m
+ 		this.cep = cep;[m
+ 		this.cliente = cliente;[m
+[31m-		this.setCidade(cidade);[m
+[32m+[m		[32mthis.cidade = cidade;[m
+ 	}[m
+ [m
+ 	public Integer getId() {[m

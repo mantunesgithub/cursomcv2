@@ -1,5 +1,6 @@
 package com.mantunes.cursomcv2;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.mantunes.cursomcv2.domain.Cidade;
 import com.mantunes.cursomcv2.domain.Cliente;
 import com.mantunes.cursomcv2.domain.Endereco;
 import com.mantunes.cursomcv2.domain.Estado;
+import com.mantunes.cursomcv2.domain.Pagamento;
+import com.mantunes.cursomcv2.domain.PagamentoComBoleto;
+import com.mantunes.cursomcv2.domain.PagamentoComCartao;
+import com.mantunes.cursomcv2.domain.Pedido;
 import com.mantunes.cursomcv2.domain.Produto;
+import com.mantunes.cursomcv2.domain.enums.EstadoPagamento;
 import com.mantunes.cursomcv2.domain.enums.TipoCliente;
 import com.mantunes.cursomcv2.repositories.CategoriaRepository;
 import com.mantunes.cursomcv2.repositories.CidadeRepository;
 import com.mantunes.cursomcv2.repositories.ClienteRepository;
 import com.mantunes.cursomcv2.repositories.EnderecoRepository;
 import com.mantunes.cursomcv2.repositories.EstadoRepository;
+import com.mantunes.cursomcv2.repositories.PagamentoRepository;
+import com.mantunes.cursomcv2.repositories.PedidoRepository;
 import com.mantunes.cursomcv2.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -27,15 +35,19 @@ public class CursomcV2Application implements CommandLineRunner  {
 	@Autowired
 	private	CategoriaRepository categoriaRepository;
 	@Autowired
-	private	ProdutoRepository produtoRepository;
+	private	ProdutoRepository 	produtoRepository;
 	@Autowired
-	private	EstadoRepository estadoRepository;
+	private	EstadoRepository 	estadoRepository;
 	@Autowired
-	private	CidadeRepository cidadeRepository;
+	private	CidadeRepository 	cidadeRepository;
 	@Autowired
-	private	ClienteRepository clienteRepository;
+	private	ClienteRepository 	clienteRepository;
 	@Autowired
-	private	EnderecoRepository enderecoRepository;
+	private	EnderecoRepository	enderecoRepository;
+	@Autowired
+	private	PedidoRepository 	pedidoRepository;
+	@Autowired
+	private	PagamentoRepository pagamentoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcV2Application.class, args);
@@ -82,7 +94,33 @@ public class CursomcV2Application implements CommandLineRunner  {
 		
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
+		System.out.println("cliente e endereço repository");
 		
+		SimpleDateFormat sdf = SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
+		if (cli1 != null && e1 != null ) {
+			System.out.println("chegou Pedido - cli1 = " + cli1 + "e1 = " + e1);
+		}
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		System.out.println("Passou Pedido");
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		
+		Pagamento pagto1	= new PagamentoComCartao(null,EstadoPagamento.QUITADO,ped1,6 );
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2	= new PagamentoComBoleto(null,EstadoPagamento.PENDENTE,ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		System.out.println("Passou pedido e pagameto");
+	}
+
+	private SimpleDateFormat SimpleDateFormat(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
