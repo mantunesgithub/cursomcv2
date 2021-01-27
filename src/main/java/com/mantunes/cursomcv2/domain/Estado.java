@@ -24,7 +24,7 @@ public class Estado implements Serializable {
 
 	//Não libera a serializacao do Estado para relacionaento 1 Estado para  N Cidade
 	@JsonBackReference
-	@OneToMany(mappedBy = "estado")
+	@OneToMany(mappedBy="estado")
 	private List<Cidade> cidades = new ArrayList<>();
 
 	public Estado() {
