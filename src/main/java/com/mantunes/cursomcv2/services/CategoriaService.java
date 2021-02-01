@@ -14,16 +14,27 @@ public class CategoriaService {
 	@Autowired
 	private	CategoriaRepository	repo;
 	
-	public	Categoria buscar(Integer id) throws Throwable {
+	public	Categoria find(Integer id) throws Throwable {
 		Optional<Categoria> obj = repo.findById(id);
 		
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", tipo: " 
 				+ Categoria.class.getName()));
 	}
-
+	/*
+	 *	Sessão 3: Operações de CRUD e Casos de uso 
+	 *	Insert uma Categoria via Postman - Qdi ID value null ele inseri senão atza
+	 */
 	public Categoria insert(Categoria obj) {
 		obj.setId(null);	//Para garantir que o metodo save use como inserção e nao atzcao
+		return repo.save(obj);
+	}
+	/*
+	 *	Sessão 3: Operações de CRUD e Casos de uso 
+	 *	Update uma Categoria via Postman
+	 */
+	public Categoria update(Categoria obj) throws Throwable {
+		find(obj.getId());				//checar se existe o id
 		return repo.save(obj);
 	}
 }

@@ -23,22 +23,30 @@ public class CategoriaResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	
-	public	ResponseEntity<?> find(@PathVariable Integer id) throws Throwable {
-		Categoria obj = service.buscar(id);
+	public	ResponseEntity<Categoria> find(@PathVariable Integer id) throws Throwable {
+		Categoria obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	/*
 	 *	Sessão 3: Operações de CRUD e Casos de uso 
 	 *	Inserir uma Categoria via Postman
 	 */
-	
 	@RequestMapping(method=RequestMethod.POST)
 	public	ResponseEntity<Void> insert(@RequestBody Categoria obj) {
 		obj = service.insert(obj);
 		java.net.URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return	ResponseEntity.created(uri).build();
-								
 	}
-	
+	/*
+	 *	Sessão 3: Operações de CRUD e Casos de uso 
+	 *	Update uma Categoria via Postman
+	 */
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public	ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) throws Throwable {
+		obj.setId(id);
+		obj = service.update(obj);
+		return	ResponseEntity.noContent().build();
+	}
+
 }
