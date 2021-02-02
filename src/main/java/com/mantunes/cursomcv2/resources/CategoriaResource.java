@@ -29,7 +29,7 @@ public class CategoriaResource {
 	}
 	/*
 	 *	Sessão 3: Operações de CRUD e Casos de uso 
-	 *	Inserir uma Categoria via Postman
+	 *	Inserir/Update/Delete uma Categoria via Postman
 	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public	ResponseEntity<Void> insert(@RequestBody Categoria obj) {
@@ -38,15 +38,16 @@ public class CategoriaResource {
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return	ResponseEntity.created(uri).build();
 	}
-	/*
-	 *	Sessão 3: Operações de CRUD e Casos de uso 
-	 *	Update uma Categoria via Postman
-	 */
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public	ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) throws Throwable {
 		obj.setId(id);
 		obj = service.update(obj);
 		return	ResponseEntity.noContent().build();
+	}
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public	ResponseEntity<Void> delete(@PathVariable Integer id) throws Throwable  {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }
