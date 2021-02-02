@@ -3,14 +3,14 @@ package com.mantunes.cursomcv2.resources;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.CollectionTable;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -57,7 +57,7 @@ public class CategoriaResource {
 	}
 	/*
 	 * Se fosse trazer para cada Categoria todos os produtos seria assim. Mas queremos somente
-	 * as Categoria, então vamos usar o DTO para trafegar somente os dados que queremos
+	 * as Categoria, então vamos usar o DTO para trafegar somente os dados que queremos que são as Categorias
 	 */
 //	@RequestMapping(method=RequestMethod.GET)
 //	public	ResponseEntity<List <Categoria>> findAll() throws Throwable {
@@ -70,7 +70,25 @@ public class CategoriaResource {
 		List <Categoria> list = service.findAll();
 		
 		List <CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+	/*
+	 * Método para paginação de Categoria informando parametros ou assumindo o default 
+	 * http://localhost:8081/categorias/page
+	 * http://localhost:8081/categorias/page?linesPerPage=3
+	 * http://localhost:8081/categorias/page?linesPerPage=3&page=1
+	 * http://localhost:8081/categorias/page?linesPerPage=3&page=1&direction=DESC
+	 */
+	@RequestMapping(value="/page", method=RequestMethod.GET)
+	public	ResponseEntity<Page <CategoriaDTO>> findPage(
+			@RequestParam (value="page", defaultValue = "0") Integer page,
+			@RequestParam (value="linesPerPage", defaultValue = "24")Integer linesPerPage,
+			@RequestParam (value="orderBy", defaultValue = "nome")String orderBy,
+			@RequestParam (value="direction", defaultValue = "ASC")String direction){
 		
+		Page<Categoria> list = service.findPage(page,linesPerPage,orderBy,direction );
+		
+		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
 

@@ -1,16 +1,19 @@
 package com.mantunes.cursomcv2.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mantunes.cursomcv2.domain.Categoria;
 import com.mantunes.cursomcv2.repositories.CategoriaRepository;
 import com.mantunes.cursomcv2.services.exceptions.DataIntegrityException;
 import com.mantunes.cursomcv2.services.exceptions.ObjectNotFoundException;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoriaService {
@@ -50,5 +53,12 @@ public class CategoriaService {
 	}
 	public List<Categoria> findAll() {
 		return repo.findAll();
+	}
+	/*
+	 * Método para paginação de Categoria informando parametros ou assumindo o default 
+	 */
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction ) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return	repo.findAll(pageRequest);
 	}
 }
