@@ -1,5 +1,10 @@
 package com.mantunes.cursomcv2.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.CollectionTable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.mantunes.cursomcv2.DTO.CategoriaDTO;
 import com.mantunes.cursomcv2.domain.Categoria;
 import com.mantunes.cursomcv2.services.CategoriaService;
 
@@ -29,7 +35,7 @@ public class CategoriaResource {
 	}
 	/*
 	 *	Sessão 3: Operações de CRUD e Casos de uso 
-	 *	Inserir/Update/Delete uma Categoria via Postman
+	 *	Inserir/Update/Delete / findAll(todas)  / uma Categoria via Postman
 	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public	ResponseEntity<Void> insert(@RequestBody Categoria obj) {
@@ -48,6 +54,24 @@ public class CategoriaResource {
 	public	ResponseEntity<Void> delete(@PathVariable Integer id) throws Throwable  {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	/*
+	 * Se fosse trazer para cada Categoria todos os produtos seria assim. Mas queremos somente
+	 * as Categoria, então vamos usar o DTO para trafegar somente os dados que queremos
+	 */
+//	@RequestMapping(method=RequestMethod.GET)
+//	public	ResponseEntity<List <Categoria>> findAll() throws Throwable {
+//		List <Categoria> list = service.findAll();
+//		return ResponseEntity.ok().body(list);
+//	}
+	@RequestMapping(method=RequestMethod.GET)
+	public	ResponseEntity<List <CategoriaDTO>> findAll() throws Throwable {
+		
+		List <Categoria> list = service.findAll();
+		
+		List <CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(listDTO);
 	}
 
 }
