@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.mantunes.cursomcv2.DTO.ClienteDTO;
-import com.mantunes.cursomcv2.domain.Cliente;
+import com.mantunes.cursomcv2.DTO.ClienteNewDTO;
 import com.mantunes.cursomcv2.domain.Cliente;
 import com.mantunes.cursomcv2.services.ClienteService;
 
@@ -47,6 +48,20 @@ public class ClienteResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	/*
+	 *	Sessão 3: Operações de CRUD e Casos de uso 
+	 *	Inserir/Update/Delete / findAll(todas)  / uma Categoria via Postman
+	 */
+	@RequestMapping(method=RequestMethod.POST)
+	public	ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDTO) {
+		Cliente obj = service.fromDTO(objDTO);
+		obj = service.insert(obj);
+		
+		java.net.URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return	ResponseEntity.created(uri).build();
+	}
+	
 	/*
 	 * Se fosse trazer para cada Cliente todos os produtos seria assim. Mas queremos somente
 	 * as Cliente, então vamos usar o DTO para trafegar somente os dados que queremos que são as Clientes
