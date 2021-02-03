@@ -39,9 +39,15 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) throws Throwable {
-		find(obj.getId());				//checar se existe o id
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId());				//checar se existe o id
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+	}
+	
 	public void delete(Integer id) throws Throwable {
 		find(id);
 		
