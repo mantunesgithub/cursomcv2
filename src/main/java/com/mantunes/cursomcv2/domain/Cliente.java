@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -29,7 +30,7 @@ public class Cliente implements Serializable  {
 	private	Integer	tipo;
 	
 	//libera a serializacao dos endereco para relacionaento 1 cliente N enderecos
-	@OneToMany(mappedBy="cliente")
+	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL	)
 	private	List<Endereco> enderecos = new ArrayList<>();
 /*
  *nome da tabela a ser criada para telefone 
