@@ -1,18 +1,40 @@
 package com.mantunes.cursomcv2.DTO;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.mantunes.cursomcv2.services.validation.ClienteInsert;
+
+@ClienteInsert
 public class ClienteNewDTO {
-	
+
+	@NotEmpty(message="Este campo deve ser preenchido")
+	@Length(min=5, max=90, message="O Tamanho deve ser entre 5 e 90 chars")
 	private String	nome;
-	private String	email;
-	private String	cpfCnpj;
-	private	Integer	tipo;
 	
+	@NotEmpty(message="Este campo deve ser preenchido")
+	@Email(message="Email inválido")
+	private String	email;
+	
+	@NotEmpty(message="Este campo deve ser preenchido")
+	private String	cpfOuCnpj;
+	
+	private	Integer	tipo;
+
+	@NotEmpty(message="Este campo deve ser preenchido")
 	private	String	logradouro;
+	
+	@NotEmpty(message="Este campo deve ser preenchido")
 	private	String	numero;
 	private	String	complemento;
 	private	String	bairro;
+	
+	@NotEmpty(message="Este campo deve ser preenchido")
 	private	String	cep;
-
+	
+	@NotEmpty(message="Este campo deve ser preenchido")
 	private String	telefone1;
 	private String	telefone2;
 	private String	telefone3;
@@ -39,12 +61,12 @@ public class ClienteNewDTO {
 		this.email = email;
 	}
 
-	public String getCpfCnpj() {
-		return cpfCnpj;
+	public String getCpfOuCnpj() {
+		return cpfOuCnpj;
 	}
 
-	public void setCpfCnpj(String cpfCnpj) {
-		this.cpfCnpj = cpfCnpj;
+	public void setCpfOuCnpj(String cpfOuCnpj) {
+		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
 	public Integer getTipo() {
@@ -111,6 +133,14 @@ public class ClienteNewDTO {
 		this.telefone2 = telefone2;
 	}
 
+	public String getTelefone3() {
+		return telefone3;
+	}
+
+	public void setTelefone3(String telefone3) {
+		this.telefone3 = telefone3;
+	}
+
 	public Integer getCidadeId() {
 		return cidadeId;
 	}
@@ -118,13 +148,4 @@ public class ClienteNewDTO {
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
 	}
-
-	public void setTelefone3(String telefone3) {
-		this.telefone3 = telefone3;
-	}
-	public String getTelefone3() {
-		return telefone3;
-	}
-	
-	
 }
