@@ -34,6 +34,7 @@ import com.mantunes.cursomcv2.repositories.ProdutoRepository;
 @SpringBootApplication
 public class CursomcV2Application implements CommandLineRunner  {
 
+	//Autowire
 	@Autowired
 	private	CategoriaRepository categoriaRepository;
 	@Autowired
@@ -59,7 +60,7 @@ public class CursomcV2Application implements CommandLineRunner  {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Categoria cat1 = new Categoria(null, "Informatica");
+		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritorio");
 		Categoria cat3 = new Categoria(null, "Cama Mesa e Banho");
 		Categoria cat4 = new Categoria(null, "Eletrônicos");
