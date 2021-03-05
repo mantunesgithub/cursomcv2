@@ -33,7 +33,8 @@ public class ProdutoService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		
 		List<Categoria> categorias = categoriaRepository.findAllById(ids);
-		
+
+//		Pode ser assim ou se quiser spring data findDistinctByNomeContainingAndCategoriasIn			
 //		return repo.search(nome, categorias, pageRequest);	
 		return repo.findDistinctByNomeContainingAndCategoriasIn(nome, categorias, pageRequest);	
 	}

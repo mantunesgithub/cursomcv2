@@ -17,6 +17,7 @@ import com.mantunes.cursomcv2.domain.Produto;
 public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
 	
 	@Transactional(readOnly=true)
+//	Pode ser assim ou se quiser spring data findDistinctByNomeContainingAndCategoriasIn	. Se deixar a @query ela tem preferencia em cima do metodo
 //	@Query("SELECT DISTINCT obj FROM Produto obj INNER JOIN obj.categorias cat WHERE obj.nome LIKE %:nome% AND cat IN :categorias")
 //	Page <Produto> search(@Param("nome") String nome, @Param("categorias") List<Categoria> categorias, Pageable pageRequest);
 	
