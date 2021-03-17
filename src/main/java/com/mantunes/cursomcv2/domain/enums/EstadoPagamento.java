@@ -18,7 +18,7 @@ public enum EstadoPagamento {
 		return cod;
 	}
 
-	public String getDesrição() {
+	public String getDescricao() {
 		return descricao;
 	}
 	public	static	EstadoPagamento	toEnum	(Integer cod) {
