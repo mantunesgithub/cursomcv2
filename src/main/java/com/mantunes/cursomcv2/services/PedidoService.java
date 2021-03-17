@@ -35,6 +35,9 @@ public class PedidoService {
 	@Autowired
 	private ClienteService clienteService;	
 
+	@Autowired
+	private EmailService emailService;	
+
 	public	Pedido find(Integer id) throws Throwable {
 		Optional<Pedido> obj = repo.findById(id);
 		
@@ -55,6 +58,7 @@ public class PedidoService {
 		}
 		obj = repo.save(obj);
 		pagamentoRepository.save(obj.getPagamento());
+		
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
 			ip.setProduto(produtoService.find(ip.getProduto().getId()));
@@ -62,7 +66,13 @@ public class PedidoService {
 			ip.setPedido(obj);
 		}
 		itemPedidoRepository.saveAll(obj.getItens());
-		System.out.println(obj);
+		
+		//Como sei que esta interface vai ser instanciada como mockemailservice? Na classe TestConfig (esta rodando test)
+		//Spring vai pegar uma instância @Bean EmailService que retorna uma instância de MockEmailService pq foi injetado uma
+		//instancia (private EmailService emailService;) nesta classe
+		//Chama envio de email. EmailService é uma interface.
+		
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 	}	
 }
