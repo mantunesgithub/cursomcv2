@@ -72,7 +72,8 @@ public class PedidoService {
 		//instancia (private EmailService emailService;) nesta classe
 		//Chama envio de email. EmailService é uma interface.
 		
-		emailService.sendOrderConfirmationEmail(obj);
+		//emailService.sendOrderConfirmationEmail(obj);
+		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 	}	
 }
