@@ -30,7 +30,9 @@ import com.mantunes.cursomcv2.repositories.ItemPedidoRepository;
 import com.mantunes.cursomcv2.repositories.PagamentoRepository;
 import com.mantunes.cursomcv2.repositories.PedidoRepository;
 import com.mantunes.cursomcv2.repositories.ProdutoRepository;
-
+//Para testar envio de Email abrir o banco de dados do Mysql c\:xamp > xampp-controler ? Star no Mysql
+//Para ver o phpadmin  .Digite na url => localhost:
+//
 @SpringBootApplication
 public class CursomcV2Application implements CommandLineRunner  {
 
